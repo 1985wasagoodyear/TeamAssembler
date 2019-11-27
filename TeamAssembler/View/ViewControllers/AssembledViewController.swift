@@ -80,6 +80,7 @@ extension AssembledViewController: StateTableViewProtocol {
 
 extension AssembledViewController: UITableViewDelegate {
     #if compiler(>=5)
+    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "DELETE")
         { (action, view, completion) in
@@ -87,17 +88,17 @@ extension AssembledViewController: UITableViewDelegate {
         }
         return UISwipeActionsConfiguration(actions: [action])
     }
-    #else
+    #endif
+    
     func tableView(_ tableView: UITableView,
                    editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let action = UITableViewRowAction(style: .destructive, title: "DELETE")
+        let action = UITableViewRowAction(style: .destructive, title: "DELETE!")
         { (action, indexPath) in
             self.controller.deleteTeammate(at: indexPath.row)
         }
         
         return [action]
     }
-    #endif
 }
 
 extension AssembledViewController: StateTableViewErrorProtocol {
