@@ -20,4 +20,20 @@ final class TeammateTableViewCell: UITableViewCell {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var mightLabel: UILabel!
     
+    // MARK: - Override initializers
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        commonInit()
+    }
+    
+    func commonInit() {
+        selectionStyle = .none
+    }
+    
 }
