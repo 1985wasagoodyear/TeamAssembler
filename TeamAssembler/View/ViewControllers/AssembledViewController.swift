@@ -18,6 +18,7 @@ class AssembledViewController: UIViewController {
     
     @IBOutlet var tableView: StateTableView! {
         didSet {
+            tableView.delegate = self
             tableView.dataSource = self
             tableView.stateDelegate = self
             tableView.errorDelegate = self
@@ -75,6 +76,28 @@ extension AssembledViewController: StateTableViewProtocol {
         
         return cell
     }
+}
+
+extension AssembledViewController: UITableViewDelegate {
+    #if compiler(>=5)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "DELETE")
+        { (action, view, completion) in
+            self.controller.deleteTeammate(at: indexPath.row)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    #else
+    func tableView(_ tableView: UITableView,
+                   editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let action = UITableViewRowAction(style: .destructive, title: "DELETE")
+        { (action, indexPath) in
+            self.controller.deleteTeammate(at: indexPath.row)
+        }
+        
+        return [action]
+    }
+    #endif
 }
 
 extension AssembledViewController: StateTableViewErrorProtocol {

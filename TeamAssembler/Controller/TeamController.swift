@@ -7,22 +7,23 @@
 //
 
 import Foundation
-import RealmSwift
 
 protocol TeamControllerProtocol {
     var team: [Teammate] { get }
     var teamSize: Int { get }
     func getTeam()
     func newTeammate(name: String, might: String)
+    func deleteTeammate(at index: Int)
 }
 
 protocol TeamControllerViewProtocol {
     func didAddTeammate()
+    func didDeleteTeammate(at index: Int)
     func didRefreshTeam()
 }
 
 class TeamController: TeamControllerProtocol {
-    let realm = try! Realm()
+    let realm = RealmAdapter()
     var team: [Teammate]
     var view: TeamControllerViewProtocol
     
@@ -36,17 +37,25 @@ class TeamController: TeamControllerProtocol {
     }
     
     func getTeam() {
-        team = realm.objects(Teammate.self).compactMap { $0 }
+        team = realm.fetchObjects(Teammate.self)
         view.didRefreshTeam()
     }
     
     func newTeammate(name: String, might: String) {
         let newTeammate = Teammate(name: name, might: might)
         team.append(newTeammate)
-        try! realm.write {
-            realm.add(newTeammate)
-        }
+        realm.add(newTeammate)
         view.didAddTeammate()
     }
-
+    
+    func deleteTeammate(at index: Int) {
+        let removed = team.remove(at: index)
+        realm.delete(removed)
+        if team.isEmpty {
+            view.didRefreshTeam()
+        }
+        else {
+            view.didDeleteTeammate(at: index)
+        }
+    }
 }
