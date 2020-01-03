@@ -12,21 +12,20 @@ extension AssembledViewController: TeamControllerViewProtocol {
     func didAddTeammate() {
         let currState = tableView.currentState
         switch currState {
-            case .loaded:
-                let p = IndexPath(row: controller.teamSize - 1, section: 0)
-                tableView.insertRows(at: [p], with: .automatic)
-            case .error:
-                print("Error state, cannot present.")
-            default:
-                tableView.currentState = .loaded
+        case .loaded:
+            let path = IndexPath(row: controller.teamSize - 1, section: 0)
+            tableView.insertRows(at: [path], with: .automatic)
+        case .error:
+            print("Error state, cannot present.")
+        default:
+            tableView.currentState = .loaded
         }
     }
 
     func didRefreshTeam() {
         if controller.teamSize == 0 {
             tableView.currentState = .empty
-        }
-        else {
+        } else {
             tableView.currentState = .loaded
         }
     }
@@ -34,13 +33,13 @@ extension AssembledViewController: TeamControllerViewProtocol {
     func didDeleteTeammate(at index: Int) {
         let currState = tableView.currentState
         switch currState {
-            case .loaded:
-                let p = IndexPath(row: index, section: 0)
-                tableView.deleteRows(at: [p], with: .automatic)
-            case .error:
-                print("Error state, cannot present.")
-            default:
-                tableView.currentState = .loaded
+        case .loaded:
+            let path = IndexPath(row: index, section: 0)
+            tableView.deleteRows(at: [path], with: .automatic)
+        case .error:
+            print("Error state, cannot present.")
+        default:
+            tableView.currentState = .loaded
         }
     }
 }

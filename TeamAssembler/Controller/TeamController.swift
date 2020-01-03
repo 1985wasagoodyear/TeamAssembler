@@ -53,8 +53,7 @@ class TeamController: TeamControllerProtocol {
         realm.delete(removed)
         if team.isEmpty {
             view.didRefreshTeam()
-        }
-        else {
+        } else {
             view.didDeleteTeammate(at: index)
         }
     }

@@ -8,5 +8,6 @@ target 'TeamAssembler' do
   # Pods for TeamAssembler
   pod 'RealmSwift'
   pod 'StateUITableView'
+  pod 'SwiftLint'
 
 end

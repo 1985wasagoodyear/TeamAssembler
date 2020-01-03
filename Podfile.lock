@@ -5,22 +5,26 @@ PODS:
   - RealmSwift (4.1.0):
     - Realm (= 4.1.0)
   - StateUITableView (1.0.1)
+  - SwiftLint (0.38.0)
 
 DEPENDENCIES:
   - RealmSwift
   - StateUITableView
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Realm
     - RealmSwift
     - StateUITableView
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Realm: 5d1453468eca02c901c50b8a356f4a98a15b57aa
   RealmSwift: 1d238caa5c64a590c669beef1a7e858a6cf55a1c
   StateUITableView: a138b491079d13e6bfde5a468270582dfa933715
+  SwiftLint: 4105f061f9812b214568b736dab580ab2c73a582
 
-PODFILE CHECKSUM: d634c5e002d157bf40f83e0160ed95b2aa631e64
+PODFILE CHECKSUM: 16cdccb69a86a904c44cdf2e0d2b9b725eb4eaa5
 
 COCOAPODS: 1.7.2

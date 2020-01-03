@@ -9,8 +9,10 @@
 import UIKit
 import StateUITableView
 
-private let MAKE_TEAMMATE_SEGUE_ID = "makeTeammate"
-private let TEAM_CELL_REUSE_ID = "teamCellID"
+private enum IDs {
+    static let makeTeammateSegue = "makeTeammate"
+    static let teamCellReuse = "teamCellID"
+}
 
 class AssembledViewController: UIViewController {
 
@@ -23,7 +25,7 @@ class AssembledViewController: UIViewController {
             tableView.stateDelegate = self
             tableView.errorDelegate = self
             let nib = UINib(nibName: "TeammateTableViewCell", bundle: nil)
-            tableView.register(nib, forCellReuseIdentifier: TEAM_CELL_REUSE_ID)
+            tableView.register(nib, forCellReuseIdentifier: IDs.teamCellReuse)
         }
     }
     
@@ -42,22 +44,20 @@ class AssembledViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == MAKE_TEAMMATE_SEGUE_ID, let vc = segue.destination as? MakeTeammateViewController {
-            vc.delegate = self
+        if segue.identifier == IDs.makeTeammateSegue, let dest = segue.destination as? MakeTeammateViewController {
+            dest.delegate = self
         }
     }
     
     // MARK: - Custom Action Method
     
     @IBAction func makeAction(_ sender: Any) {
-        performSegue(withIdentifier: MAKE_TEAMMATE_SEGUE_ID, sender: nil)
+        performSegue(withIdentifier: IDs.makeTeammateSegue, sender: nil)
     }
     
-
 }
 
 extension AssembledViewController: StateTableViewProtocol {
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
          return 1
@@ -67,12 +67,14 @@ extension AssembledViewController: StateTableViewProtocol {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TEAM_CELL_REUSE_ID,
-                                                 for: indexPath) as! TeammateTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: IDs.teamCellReuse,
+                                                       for: indexPath) as? TeammateTableViewCell else {
+                                                        fatalError("Cell not found")
+        }
         
-        let m = controller.team[indexPath.row]
-        cell.nameLabel.text = m.name
-        cell.mightLabel.text = m.might
+        let mate = controller.team[indexPath.row]
+        cell.nameLabel.text = mate.name
+        cell.mightLabel.text = mate.might
         
         return cell
     }
@@ -81,9 +83,9 @@ extension AssembledViewController: StateTableViewProtocol {
 extension AssembledViewController: UITableViewDelegate {
     #if compiler(>=5)
     @available(iOS 11.0, *)
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: "DELETE")
-        { (action, view, completion) in
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "DELETE") { (_, _, _) in
             self.controller.deleteTeammate(at: indexPath.row)
         }
         return UISwipeActionsConfiguration(actions: [action])
@@ -92,8 +94,7 @@ extension AssembledViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let action = UITableViewRowAction(style: .destructive, title: "DELETE!")
-        { (action, indexPath) in
+        let action = UITableViewRowAction(style: .destructive, title: "DELETE!") { (_, _) in
             self.controller.deleteTeammate(at: indexPath.row)
         }
         
