@@ -9,8 +9,10 @@
 import Foundation
 import RealmSwift
 
-struct RealmAdapter {
-    let realm = try! Realm()
+public class RealmAdapter {
+    lazy fileprivate var realm: Realm = {
+        do { return try Realm() } catch { fatalError(error.localizedDescription) }
+    }()
     
     // MARK: - Reading from Realm
     // and convertion to native Array type.
@@ -20,17 +22,21 @@ struct RealmAdapter {
     
     // MARK: - Writing to Realm
     
-    func add(_ obj: Object) {
-        try! realm.write {
-            realm.add(obj)
-        }
+    public func add(_ obj: Object) {
+        do {
+            try realm.write {
+                realm.add(obj)
+            }
+        } catch { fatalError(error.localizedDescription) }
     }
     
     // MARK: - Deleting from Realm
     
-    func delete(_ obj: Object) {
-        try! realm.write {
-            realm.delete(obj)
-        }
+    public func delete(_ obj: Object) {
+        do {
+            try realm.write {
+                realm.delete(obj)
+            }
+        } catch { fatalError(error.localizedDescription) }
     }
 }

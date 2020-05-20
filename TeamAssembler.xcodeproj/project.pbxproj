@@ -171,6 +171,7 @@
 				3F77E557238DCF8600C2A1A4 /* Frameworks */,
 				3F77E558238DCF8600C2A1A4 /* Resources */,
 				336961784724DCB70DEFE274 /* [CP] Embed Pods Frameworks */,
+				3F72398323BFA79600005DE2 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -267,6 +268,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeamAssembler/Pods-TeamAssembler-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3F72398323BFA79600005DE2 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
