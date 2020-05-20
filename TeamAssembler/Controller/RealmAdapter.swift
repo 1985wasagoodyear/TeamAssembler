@@ -17,7 +17,7 @@ public class RealmAdapter {
     // MARK: - Reading from Realm
     // and convertion to native Array type.
     public func fetchObjects<T: Object>(_ type: T.Type) -> [T] {
-        return realm.objects(T.self).compactMap { $0 }
+        return realm.objects(T.self).map { $0 }
     }
     
     // MARK: - Writing to Realm
